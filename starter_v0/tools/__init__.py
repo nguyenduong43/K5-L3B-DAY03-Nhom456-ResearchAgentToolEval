@@ -18,6 +18,9 @@ from .social_search.tool import search_tweets
 from .send.tool import send_telegram
 from .lookup.tool import web_search
 from .source_check.tool import check_source
+from .text_stats.tool import analyze_text_stats
+from .filter_items.tool import filter_research_items
+from .sentiment_analysis.tool import analyze_sentiment
 
 
 # NOTE (starter_v0): tool names here are intentionally vague. These keys are the
@@ -37,6 +40,9 @@ TOOL_FUNCTIONS = {
     "papers": arxiv_search,
     "paper_text": get_arxiv_paper_text,
     "source_check": check_source,
+    "text_stats": analyze_text_stats,
+    "filter_items": filter_research_items,
+    "sentiment_analysis": analyze_sentiment,
 }
 
 
