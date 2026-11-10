@@ -11,7 +11,7 @@
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 | Nguyễn Tùng Dương | 2A202603850 | nguyenduong342003@gmail.com |  | Team Leader & Prompt/Tool Optimization Lead (CP1, CP2) |
+|   1 | Nguyễn Tùng Dương | 2A202603850 | 26ai.duongnt10@vinuni.edu.vn | nguyenduong43 | Team Leader & Prompt/Tool Optimization Lead (CP1, CP2) |
 |   2 | Đỗ Duy Tùng | 2A202603844 |26ai.tungdd@vinuni.edu.vn  |Presceltooo  | Tool & Unit Test Developer (CP3) |
 
 ## Cá nhân
