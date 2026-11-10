@@ -101,7 +101,18 @@ Liệt kê đúng 10 case trong `starter_v0/data/eval_group.json` (5 single turn
 
 | Case ID | What It Tests | Expected Tool/Behavior | Result |
 |---|---|---|---|
-|  |  |  |  |
+| G01_source_check_credibility | Route yêu cầu đánh giá độ uy tín URL | `source_check(url=...)` | PASS |
+| G02_text_stats_word_count | Route yêu cầu đếm số từ đoạn văn cho sẵn | `text_stats(text=...)` | PASS |
+| G03_filter_duplicate_items | Khử các item trùng URL | `filter_items(dedup_by="url")` | PASS |
+| G04_sentiment_of_opinion | Phân tích cảm xúc một câu cho sẵn | `sentiment_analysis(text=...)` | PASS |
+| G05_explain_sentiment_without_tool | Câu hỏi khái niệm có thể trả lời trực tiếp | Không gọi tool | PASS |
+| G06_multiturn_source_check_url | Dùng URL được bổ sung ở lượt sau để kiểm tra nguồn | `source_check(url=...)` | PASS |
+| G07_multiturn_text_stats_carryover | Giữ văn bản từ lượt trước để thống kê | `text_stats(text=...)` | PASS |
+| G08_multiturn_filter_items | Giữ danh sách từ lượt trước và khử trùng lặp | `filter_items(dedup_by="url")` | PASS |
+| G09_multiturn_switch_source_check_to_fetch | Đổi từ kiểm tra nguồn sang đọc URL, giữ URL | `fetch(url=...)` | PASS |
+| G10_multiturn_sentiment_carryover | Giữ ý kiến từ lượt trước để phân tích cảm xúc | `sentiment_analysis(text=...)` | PASS |
+
+**Run evidence:** `starter_v0/runs/v3_B_group_openrouter_20261110T211006130700.json` — model `openai/gpt-4o-mini`, 10/10 case PASS, `case_accuracy` 1.00, `tool_routing_accuracy` 1.00, `argument_accuracy` 1.00, `multiturn_accuracy` 1.00, `provider_error_cases` 0.
 
 ### B4. Live Chat Evidence
 
