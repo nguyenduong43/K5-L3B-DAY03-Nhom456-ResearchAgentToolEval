@@ -186,3 +186,16 @@ tools:
         max_pages: {type: integer, default: 5, description: "Số trang tối đa cần đọc."}
         max_chars: {type: integer, default: 8000, description: "Số ký tự tối đa trả về."}
       required: [arxiv_url]
+
+  # ---------------- Custom team tools (CP3) ----------------
+  - name: source_check
+    description: >
+      Đánh giá độ tin cậy và kiểm tra trạng thái khả dụng của một URL hoặc tên miền nguồn tin (domain credibility & alive check).
+      Dùng khi user hỏi nguồn tin/link có uy tín không, link này thuộc phân loại nào, hoặc yêu cầu kiểm tra tính xác thực của link.
+      KHÔNG dùng khi user muốn đọc nội dung chi tiết bài viết (dùng fetch) hay tra cứu web chung (dùng lookup).
+    parameters:
+      type: object
+      properties:
+        url: {type: string, default: "", description: "URL đầy đủ hoặc tên miền cần kiểm tra độ tin cậy."}
+        verify_dns: {type: boolean, default: true, description: "Kiểm tra xem URL có truy cập được qua HTTP hay không."}
+      required: [url]

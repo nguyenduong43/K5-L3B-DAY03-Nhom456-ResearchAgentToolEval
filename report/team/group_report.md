@@ -37,8 +37,16 @@ Ví dụ: "Research agent: tìm tin theo từ khóa / theo tài khoản, đọc 
 | Tên tool | Làm được gì | Tool mới nhóm thêm? |
 |---|---|---|
 | clarify | hỏi lại người dùng khi thiếu thông tin | không |
-|  |  |  |
-|  |  |  |
+| timeline | lấy bài đăng gần đây của tài khoản Twitter/X | không |
+| social_search | tìm kiếm bài đăng theo từ khóa | không |
+| lookup | tra cứu tin tức/thông tin trên internet | không |
+| fetch | đọc nội dung bài viết từ một URL cụ thể | không |
+| format | trình bày các item thành bản tin markdown | không |
+| send | gửi bản tin lên Telegram khi đã xác nhận | không |
+| policy | tra cứu chính sách công ty nội bộ | không |
+| papers | tìm paper học thuật trên arXiv | không |
+| paper_text | tải và đọc nội dung PDF của arXiv paper | không |
+| source_check | đánh giá độ tin cậy của URL/domain và kiểm tra tính khả dụng | có |
 
 ### A3. Câu hỏi mẫu để thử
 
@@ -104,11 +112,13 @@ Lấy từ `starter_v0/transcripts/*.transcript.json`.
 
 | Item | Evidence File | What Worked | Risk / Guardrail |
 |---|---|---|---|
-| Tool mới (`tools/<tên>/`) |  |  |  |
-| Unit test tool mới (≥ 3 test/tool) | `pytest` output (0 failed) |  |  |
+| Tool mới (`tools/source_check/`) | `starter_v0/tools/source_check/tool.py`, `TOOL.md` | Đánh giá độ tin cậy của URL/domain (phân loại academic, official_news, untrusted TLDs) và kiểm tra HTTP status code khả dụng. | Bắt buộc URL phải là chuỗi hợp lệ; bọc toàn bộ khối xử lý mạng bằng try/catch trả về error dict. |
+| Unit test tool mới (≥ 3 test/tool) | `starter_v0/tests/test_tools_todo.py` | 3/3 test pass (happy path, bad input, failure network error). `pytest` suite đạt 70 passed, 0 failed. | Dùng `fake_http` mock hoàn toàn offline, không gọi mạng thật và không rò rỉ key. |
 | UI (lệnh chạy + link dùng thử) |  |  |  |
 
-Tool unit tests: số test đã viết, và một ví dụ lỗi mà unit test bắt được nhưng eval không bắt được.
+**Tool unit tests:**
+- Số test đã viết: 3 tests (`test_source_check_happy_path_trusted_domain`, `test_source_check_bad_or_missing_input_returns_error_dict`, `test_source_check_network_failure_returns_error_dict`).
+- Ví dụ lỗi mà unit test bắt được nhưng eval không bắt được: Eval chỉ kiểm tra model có gọi đúng `tool_name` và `args` hay không (ví dụ model gọi đúng `source_check(url="...")` thì eval vẫn chấm PASS). Nhưng nếu phía tool code bị lỗi mạng (`ConnectionError`) hoặc nhận URL rỗng mà code lại `raise` exception thay vì trả về dictionary `{"error": ...}` thì agent sẽ bị crash runtime. Unit test đã phát hiện và bảo đảm tool luôn bắt ngoại lệ và trả về error dict an toàn.
 
 ### B5. Bonus Evidence
 

@@ -110,13 +110,41 @@ def test_policy_instruction_like_lines_go_to_untrusted_text() -> None:
 #   2. bad / missing input from the model (empty string, wrong type, out-of-enum value)
 #   3. failure path (missing key, HTTP error, timeout) -> returns error dict, does not raise
 
-def test_my_new_tool_happy_path() -> None:
-    pytest.skip(TODO)
+source_check_tool = TOOL_FUNCTIONS["source_check"]
 
 
-def test_my_new_tool_bad_input_from_model() -> None:
-    pytest.skip(TODO)
+def test_source_check_happy_path_trusted_domain(fake_http) -> None:
+    calls = fake_http(FakeResponse(status_code=200))
+    result = source_check_tool(url="https://arxiv.org/abs/2301.00001", verify_dns=True)
+
+    assert result["tool"] == "source_check"
+    assert result["domain"] == "arxiv.org"
+    assert result["rating"] == "HIGH"
+    assert result["trust_score"] >= 90
+    assert result["category"] == "academic"
+    assert result["is_alive"] is True
+    assert len(calls) == 1
+    assert calls[0]["url"] == "https://arxiv.org/abs/2301.00001"
 
 
-def test_my_new_tool_failure_returns_error_dict() -> None:
-    pytest.skip(TODO)
+def test_source_check_bad_or_missing_input_returns_error_dict() -> None:
+    # Model gửi chuỗi rỗng hoặc None -> bắt lỗi trả về error dict, không crash
+    res_empty = source_check_tool(url="")
+    assert res_empty["error"] == "ValueError"
+    assert "URL must be a non-empty string" in res_empty["message"]
+
+    res_none = source_check_tool(url=None)
+    assert res_none["error"] == "ValueError"
+
+    res_spaces = source_check_tool(url="   ")
+    assert res_spaces["error"] == "ValueError"
+
+
+def test_source_check_network_failure_returns_error_dict(fake_http) -> None:
+    import requests
+    fake_http(requests.exceptions.ConnectionError("Failed to resolve host"))
+    result = source_check_tool(url="https://reuters.com/world", verify_dns=True)
+
+    assert result["tool"] == "source_check"
+    assert result["error"] == "ConnectionError"
+    assert "Failed to resolve host" in result["message"]
