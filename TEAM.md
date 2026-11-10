@@ -11,7 +11,7 @@
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 | Đỗ Duy Tùng | 2A202603844 |  |  | Tool & Unit Test Developer (CP3) |
+|   1 | Đỗ Duy Tùng | 2A202603844 |26ai.tungdd@vinuni.edu.vn  |Presceltooo  | Tool & Unit Test Developer (CP3) |
 |   2 |        |      |       |        |         |
 
 ## Cá nhân
