@@ -4,7 +4,7 @@
 
 - Họ tên: Nguyễn Ngọc Vinh
 - MSSV: 2A202603877
-- Email: vinh6543210@gmail.com
+- Email: 26ai.vinhnn2@vinuni.edu.vn
 
 ## 2. Phần việc phụ trách
 
