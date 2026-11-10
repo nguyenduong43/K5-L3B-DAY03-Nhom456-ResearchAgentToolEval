@@ -47,6 +47,9 @@ Ví dụ: "Research agent: tìm tin theo từ khóa / theo tài khoản, đọc 
 | papers | tìm paper học thuật trên arXiv | không |
 | paper_text | tải và đọc nội dung PDF của arXiv paper | không |
 | source_check | đánh giá độ tin cậy của URL/domain và kiểm tra tính khả dụng | có |
+| text_stats | thống kê số từ, ký tự, thời gian đọc và trích xuất top từ khóa | có |
+| filter_items | khử trùng lặp (dedup), lọc danh sách item theo từ khóa hoặc loại trừ domain | có |
+| sentiment_analysis | phân tích sắc thái cảm xúc (tích cực/tiêu cực/trung lập) và điểm polarity | có |
 
 ### A3. Câu hỏi mẫu để thử
 
@@ -98,7 +101,18 @@ Liệt kê đúng 10 case trong `starter_v0/data/eval_group.json` (5 single turn
 
 | Case ID | What It Tests | Expected Tool/Behavior | Result |
 |---|---|---|---|
-|  |  |  |  |
+| G01_source_check_credibility | Route yêu cầu đánh giá độ uy tín URL | `source_check(url=...)` | PASS |
+| G02_text_stats_word_count | Route yêu cầu đếm số từ đoạn văn cho sẵn | `text_stats(text=...)` | PASS |
+| G03_filter_duplicate_items | Khử các item trùng URL | `filter_items(dedup_by="url")` | PASS |
+| G04_sentiment_of_opinion | Phân tích cảm xúc một câu cho sẵn | `sentiment_analysis(text=...)` | PASS |
+| G05_explain_sentiment_without_tool | Câu hỏi khái niệm có thể trả lời trực tiếp | Không gọi tool | PASS |
+| G06_multiturn_source_check_url | Dùng URL được bổ sung ở lượt sau để kiểm tra nguồn | `source_check(url=...)` | PASS |
+| G07_multiturn_text_stats_carryover | Giữ văn bản từ lượt trước để thống kê | `text_stats(text=...)` | PASS |
+| G08_multiturn_filter_items | Giữ danh sách từ lượt trước và khử trùng lặp | `filter_items(dedup_by="url")` | PASS |
+| G09_multiturn_switch_source_check_to_fetch | Đổi từ kiểm tra nguồn sang đọc URL, giữ URL | `fetch(url=...)` | PASS |
+| G10_multiturn_sentiment_carryover | Giữ ý kiến từ lượt trước để phân tích cảm xúc | `sentiment_analysis(text=...)` | PASS |
+
+**Run evidence:** `starter_v0/runs/v3_B_group_openrouter_20261110T211006130700.json` — model `openai/gpt-4o-mini`, 10/10 case PASS, `case_accuracy` 1.00, `tool_routing_accuracy` 1.00, `argument_accuracy` 1.00, `multiturn_accuracy` 1.00, `provider_error_cases` 0.
 
 ### B4. Live Chat Evidence
 
@@ -112,13 +126,17 @@ Lấy từ `starter_v0/transcripts/*.transcript.json`.
 
 | Item | Evidence File | What Worked | Risk / Guardrail |
 |---|---|---|---|
-| Tool mới (`tools/source_check/`) | `starter_v0/tools/source_check/tool.py`, `TOOL.md` | Đánh giá độ tin cậy của URL/domain (phân loại academic, official_news, untrusted TLDs) và kiểm tra HTTP status code khả dụng. | Bắt buộc URL phải là chuỗi hợp lệ; bọc toàn bộ khối xử lý mạng bằng try/catch trả về error dict. |
-| Unit test tool mới (≥ 3 test/tool) | `starter_v0/tests/test_tools_todo.py` | 3/3 test pass (happy path, bad input, failure network error). `pytest` suite đạt 70 passed, 0 failed. | Dùng `fake_http` mock hoàn toàn offline, không gọi mạng thật và không rò rỉ key. |
+| Tool mới (`tools/`) | `starter_v0/tools/` (`source_check`, `text_stats`, `filter_items`, `sentiment_analysis`) | Xây dựng 4 tool chuyên sâu cho Research Agent: kiểm tra độ tin cậy nguồn, thống kê văn bản, khử trùng lặp danh sách item, phân tích cảm xúc dư luận. | Bắt buộc kiểm tra kiểu dữ liệu đầu vào; bọc try/catch toàn bộ để luôn trả về error dict khi gặp lỗi. |
+| Unit test tool mới (≥ 3 test/tool) | `starter_v0/tests/test_tools_todo.py` | 12/12 test pass (mỗi tool 3 test: happy path, bad input, failure/edge cases). `pytest` suite đạt 94 passed, 0 failed. | Sử dụng `fake_http` mock offline, không gọi mạng thật và không rò rỉ key. |
 | UI (lệnh chạy + link dùng thử) |  |  |  |
 
 **Tool unit tests:**
-- Số test đã viết: 3 tests (`test_source_check_happy_path_trusted_domain`, `test_source_check_bad_or_missing_input_returns_error_dict`, `test_source_check_network_failure_returns_error_dict`).
-- Ví dụ lỗi mà unit test bắt được nhưng eval không bắt được: Eval chỉ kiểm tra model có gọi đúng `tool_name` và `args` hay không (ví dụ model gọi đúng `source_check(url="...")` thì eval vẫn chấm PASS). Nhưng nếu phía tool code bị lỗi mạng (`ConnectionError`) hoặc nhận URL rỗng mà code lại `raise` exception thay vì trả về dictionary `{"error": ...}` thì agent sẽ bị crash runtime. Unit test đã phát hiện và bảo đảm tool luôn bắt ngoại lệ và trả về error dict an toàn.
+- Số test đã viết: 12 tests bao phủ 4 tool mới:
+  - `source_check`: `test_source_check_happy_path_trusted_domain`, `test_source_check_bad_or_missing_input_returns_error_dict`, `test_source_check_network_failure_returns_error_dict`.
+  - `text_stats`: `test_text_stats_happy_path`, `test_text_stats_bad_input_returns_error_dict`, `test_text_stats_edge_case_only_punctuation_and_large_top_k`.
+  - `filter_items`: `test_filter_items_happy_path_deduplication`, `test_filter_items_bad_input_returns_error_dict`, `test_filter_items_by_keyword_and_exclude_domain`.
+  - `sentiment_analysis`: `test_sentiment_analysis_happy_path_positive`, `test_sentiment_analysis_happy_path_negative`, `test_sentiment_analysis_bad_input_returns_error_dict`.
+- Ví dụ lỗi mà unit test bắt được nhưng eval không bắt được: Eval chỉ kiểm tra model có gọi đúng `tool_name` và `args` hay không (ví dụ model gọi đúng `source_check(url="...")` thì eval vẫn chấm PASS). Nhưng nếu phía tool code bị lỗi mạng (`ConnectionError`) hoặc nhận URL rỗng mà code lại `raise` exception thay vì trả về dictionary `{"error": ...}` thì agent sẽ bị crash runtime. Tương tự với `filter_items` khi model truyền `items=None` hoặc `items="string"`, unit test đảm bảo code trả về error dict mà không crash agent.
 
 ### B5. Bonus Evidence
 
@@ -127,7 +145,7 @@ Chỉ điền nếu nhóm làm bonus (ghi riêng, tối đa 10 điểm). Tool c�
 | Bonus | Evidence File | What Worked | Risk / Guardrail |
 |---|---|---|---|
 | Small Local Model | xem B7 |  |  |
-| Hơn 3 tool mới (≥ 4) |  |  |  |
+| Hơn 3 tool mới (≥ 4) | `starter_v0/tools/` (`source_check`, `text_stats`, `filter_items`, `sentiment_analysis`) | Viết 4 tool mới hoàn chỉnh, mỗi tool có `tool.py`, `TOOL.md`, đăng ký trong `tools/__init__.py` và `tools.yaml`, kèm 12 unit tests đạt 100% pass | Tất cả tool đều xử lý phòng thủ lỗi, kiểm tra input biên, không crash |
 | `send` gửi thật lên Telegram sau xác nhận | transcript |  |  |
 | Test challenge (0 skipped / regression test) | `pytest` output |  |  |
 

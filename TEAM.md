@@ -54,17 +54,17 @@ Sao chép mục dưới đây cho từng thành viên.
 
 ### Phần việc phụ trách
 
-- Chịu trách nhiệm CP3 (Tool mới và Unit Test).
+- Chịu trách nhiệm CP3 (Tool mới và Unit Test) và Bonus Challenge: Hơn 3 tool mới (≥ 4 tool do nhóm tự viết).
 
 ### Đóng góp cụ thể
 
-- Xây dựng tool mới `source_check` (`tools/source_check/tool.py`, `TOOL.md`).
-- Đăng ký tool trong `tools/__init__.py` và `artifacts/tools.yaml`.
-- Viết 3 unit tests trong `tests/test_tools_todo.py`, kiểm thử offline với `fake_http`.
-- Điền mục B5a trong `report/team/group_report.md`.
+- Xây dựng 4 tool mới hoàn chỉnh: `source_check`, `text_stats`, `filter_items`, `sentiment_analysis` (mỗi tool có `tool.py`, `TOOL.md`).
+- Đăng ký cả 4 tool trong `tools/__init__.py` và `artifacts/tools.yaml`.
+- Viết 12 unit tests trong `tests/test_tools_todo.py` (3 test/tool), kiểm thử offline với `fake_http`.
+- Điền mục A2, B5a và B5 Bonus trong `report/team/group_report.md`.
 
 ### Bằng chứng
 
 - Báo cáo cá nhân: `report/team/2A202603844_DoDuyTung.md`
-- Code: `starter_v0/tools/source_check/`
-- Test: `starter_v0/tests/test_tools_todo.py` (3 passed, toàn bộ suite 70 passed, 0 failed)
+- Code: `starter_v0/tools/source_check/`, `starter_v0/tools/text_stats/`, `starter_v0/tools/filter_items/`, `starter_v0/tools/sentiment_analysis/`
+- Test: `starter_v0/tests/test_tools_todo.py` (12 passed, toàn bộ suite 94 passed, 0 failed)

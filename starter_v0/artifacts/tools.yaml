@@ -199,3 +199,59 @@ tools:
         url: {type: string, default: "", description: "URL đầy đủ hoặc tên miền cần kiểm tra độ tin cậy."}
         verify_dns: {type: boolean, default: true, description: "Kiểm tra xem URL có truy cập được qua HTTP hay không."}
       required: [url]
+
+  - name: text_stats
+    description: >
+      Phân tích định lượng số liệu văn bản: đếm số từ, độ dài ký tự, ước tính thời gian đọc, nhận diện ngôn ngữ và trích xuất top từ khóa nổi bật.
+      Dùng khi user hỏi thống kê độ dài, số từ, thời gian đọc của đoạn văn hoặc muốn biết các từ khóa xuất hiện nhiều nhất.
+      KHÔNG dùng khi user muốn tóm tắt ý nghĩa bài viết (dùng fetch hoặc LLM).
+    parameters:
+      type: object
+      properties:
+        text: {type: string, default: "", description: "Đoạn văn bản cần phân tích số liệu."}
+        top_k: {type: integer, default: 5, description: "Số lượng từ khóa nổi bật cần trích xuất."}
+      required: [text]
+
+  - name: filter_items
+    description: >
+      Lọc, khử trùng lặp (deduplication) và phân loại danh sách các bài viết / tweet đã thu thập được từ lookup hoặc social_search.
+      Dùng khi user muốn lọc bỏ các bài trùng URL/tiêu đề, lọc theo từ khóa cụ thể hoặc loại trừ các tên miền không mong muốn.
+      KHÔNG dùng khi chưa có danh sách item nào (cần tìm kiếm trước).
+    parameters:
+      type: object
+      properties:
+        items:
+          type: array
+          default: []
+          description: "Danh sách các item đã thu thập được cần lọc."
+          items:
+            type: object
+            properties:
+              title: {type: string}
+              url: {type: string}
+              summary: {type: string}
+              source: {type: string}
+        keyword: {type: string, default: "", description: "Từ khóa lọc bắt buộc phải xuất hiện trong tiêu đề hoặc tóm tắt."}
+        exclude_domain: {type: string, default: "", description: "Tên miền cần loại bỏ khỏi danh sách kết quả."}
+        dedup_by:
+          type: string
+          enum: [url, title, none]
+          default: "url"
+          description: "Tiêu chí khử trùng lặp: theo 'url', 'title' hoặc 'none'."
+      required: [items]
+
+  - name: sentiment_analysis
+    description: >
+      Phân tích sắc thái cảm xúc (tích cực, tiêu cực, trung lập) và tính điểm polarity của một đoạn văn bản, dòng tweet hoặc bình luận dư luận.
+      Dùng khi user hỏi phản ứng của cộng đồng, mọi người khen hay chê, hoặc cảm xúc tích cực/tiêu cực về một chủ đề.
+      KHÔNG dùng khi user muốn tìm kiếm thêm tweet (dùng social_search).
+    parameters:
+      type: object
+      properties:
+        text: {type: string, default: "", description: "Đoạn văn bản, tweet hoặc ý kiến cần đánh giá sắc thái cảm xúc."}
+        language:
+          type: string
+          enum: [auto, vi, en]
+          default: "auto"
+          description: "Ngôn ngữ của văn bản: 'auto', 'vi' hoặc 'en'."
+      required: [text]
