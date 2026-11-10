@@ -11,7 +11,7 @@
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 |        |      |       |        |         |
+|   1 | Đỗ Duy Tùng | 2A202603844 |  |  | Tool & Unit Test Developer (CP3) |
 |   2 |        |      |       |        |         |
 
 ## Cá nhân
@@ -26,16 +26,21 @@ Ví dụ: `report/team/20241234_NguyenVanAn.md`.
 
 Sao chép mục dưới đây cho từng thành viên.
 
-## HoVaTen-MSSV
+## DoDuyTung-2A202603844
 
 ### Phần việc phụ trách
 
--
+- Chịu trách nhiệm CP3 (Tool mới và Unit Test).
 
 ### Đóng góp cụ thể
 
--
+- Xây dựng tool mới `source_check` (`tools/source_check/tool.py`, `TOOL.md`).
+- Đăng ký tool trong `tools/__init__.py` và `artifacts/tools.yaml`.
+- Viết 3 unit tests trong `tests/test_tools_todo.py`, kiểm thử offline với `fake_http`.
+- Điền mục B5a trong `report/team/group_report.md`.
 
 ### Bằng chứng
 
--
+- Báo cáo cá nhân: `report/team/2A202603844_DoDuyTung.md`
+- Code: `starter_v0/tools/source_check/`
+- Test: `starter_v0/tests/test_tools_todo.py` (3 passed, toàn bộ suite 70 passed, 0 failed)
