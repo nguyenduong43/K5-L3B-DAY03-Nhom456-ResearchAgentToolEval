@@ -1,0 +1,709 @@
+{
+  "run_id": "v3_B_group_openrouter_20261110T211006130700",
+  "version": "v3",
+  "artifact_version": "v3+p847ff3f91285+t693f7e45cb96",
+  "prompt_hash": "847ff3f912859152e985e7229746a90d71cc3aa969a02878f10121235dfacb90",
+  "tools_hash": "693f7e45cb96a0b6c30151fbc64f52c734d97439abfb5105ff84436b8381fd92",
+  "phase": "B",
+  "suite": "group",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "system_prompt": "C:\\cuakicuc\\code\\K5-L3B-DAY03-Nhom456-ResearchAgentToolEval\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "C:\\cuakicuc\\code\\K5-L3B-DAY03-Nhom456-ResearchAgentToolEval\\starter_v0\\artifacts\\tools.yaml",
+  "eval_cases": "data\\eval_group.json",
+  "dataset_id": "day03_v2_research_group",
+  "dataset_role": "group",
+  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
+  "generated_at": "2026-11-10T21:10:06",
+  "summary": {
+    "total_cases": 10,
+    "measured_cases": 10,
+    "provider_error_cases": 0,
+    "passed_cases": 10,
+    "case_accuracy": 1.0,
+    "tool_routing_accuracy": 1.0,
+    "argument_accuracy": 1.0,
+    "multiturn_accuracy": 1.0,
+    "failure_counts": {},
+    "observed_mismatch_counts": {}
+  },
+  "results": [
+    {
+      "id": "G01_source_check_credibility",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Yêu cầu đánh giá độ uy tín của URL phải route sang source_check, không phải fetch."
+      },
+      "input": "Kiểm tra độ uy tín của nguồn này: https://example.com/article",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "source_check",
+            "args": {
+              "url": "https://example.com/article"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "source_check",
+            "args": {
+              "url": "https://example.com/article"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "source_check",
+          "args": {
+            "url": "https://example.com/article"
+          },
+          "result": {
+            "tool": "source_check",
+            "url": "https://example.com/article",
+            "domain": "example.com",
+            "trust_score": 30,
+            "rating": "LOW",
+            "category": "general_web",
+            "note": "Nguồn tin thông thường, cần đối chiếu chéo thông tin (Cảnh báo: URL trả về mã HTTP 404)",
+            "is_alive": false,
+            "status_code": 404
+          }
+        }
+      ]
+    },
+    {
+      "id": "G02_text_stats_word_count",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Yêu cầu đếm số từ của đoạn văn có sẵn phải route sang text_stats."
+      },
+      "input": "Đếm số từ trong đoạn này: \"AI agents can help researchers find and compare papers.\"",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "text_stats",
+            "args": {
+              "text": "AI agents can help researchers find and compare papers."
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "text_stats",
+            "args": {
+              "text": "AI agents can help researchers find and compare papers."
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "text_stats",
+          "args": {
+            "text": "AI agents can help researchers find and compare papers."
+          },
+          "result": {
+            "tool": "text_stats",
+            "word_count": 9,
+            "char_count": 55,
+            "reading_time_minutes": 0.1,
+            "language": "en",
+            "top_keywords": [
+              {
+                "keyword": "ai",
+                "count": 1
+              },
+              {
+                "keyword": "agents",
+                "count": 1
+              },
+              {
+                "keyword": "help",
+                "count": 1
+              },
+              {
+                "keyword": "researchers",
+                "count": 1
+              },
+              {
+                "keyword": "find",
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G03_filter_duplicate_items",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Danh sách item đã có và yêu cầu khử trùng lặp theo URL phải route sang filter_items."
+      },
+      "input": "Khử các bài trùng URL trong danh sách này: [{\"title\":\"AI agents\",\"url\":\"https://example.com/ai\"},{\"title\":\"AI agents copy\",\"url\":\"https://example.com/ai\"}]",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "filter_items",
+            "args": {
+              "dedup_by": "url"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "filter_items",
+            "args": {
+              "items": [
+                {
+                  "title": "AI agents",
+                  "url": "https://example.com/ai"
+                },
+                {
+                  "title": "AI agents copy",
+                  "url": "https://example.com/ai"
+                }
+              ],
+              "dedup_by": "url"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "filter_items",
+          "args": {
+            "items": [
+              {
+                "title": "AI agents",
+                "url": "https://example.com/ai"
+              },
+              {
+                "title": "AI agents copy",
+                "url": "https://example.com/ai"
+              }
+            ],
+            "dedup_by": "url"
+          },
+          "result": {
+            "tool": "filter_items",
+            "input_count": 2,
+            "output_count": 1,
+            "removed_count": 1,
+            "items": [
+              {
+                "title": "AI agents",
+                "url": "https://example.com/ai"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G04_sentiment_of_opinion",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Yêu cầu phân loại cảm xúc của một câu cụ thể phải route sang sentiment_analysis."
+      },
+      "input": "Phân tích cảm xúc câu này: \"The new research tool is useful and easy to use.\"",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "sentiment_analysis",
+            "args": {
+              "text": "The new research tool is useful and easy to use."
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "sentiment_analysis",
+            "args": {
+              "text": "The new research tool is useful and easy to use.",
+              "language": "en"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "sentiment_analysis",
+          "args": {
+            "text": "The new research tool is useful and easy to use.",
+            "language": "en"
+          },
+          "result": {
+            "tool": "sentiment_analysis",
+            "sentiment": "NEUTRAL",
+            "score": 0.0,
+            "positive_signals": [],
+            "negative_signals": [],
+            "signal_count": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "G05_explain_sentiment_without_tool",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Câu hỏi khái niệm có thể trả lời trực tiếp, không cần phân tích một văn bản cụ thể hay gọi tool."
+      },
+      "input": "Sentiment analysis là gì? Giải thích ngắn gọn giúp mình.",
+      "expect": {
+        "no_tool": true,
+        "behavior": "answer_without_tool"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Sentiment analysis (phân tích cảm xúc) là quá trình sử dụng công nghệ và thuật toán để xác định và phân loại cảm xúc hoặc thái độ của con người trong văn bản. Nó thường được áp dụng trong các lĩnh vực như marketing, nghiên cứu thị trường và phân tích dư luận để hiểu cách mà mọi người cảm nhận về một sản phẩm, dịch vụ hoặc chủ đề cụ thể. Phân tích cảm xúc có thể phân loại văn bản thành các nhóm như tích cực, tiêu cực hoặc trung lập.",
+        "case_failure_type": "unnecessary_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "G06_multiturn_source_check_url",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Dùng URL được bổ sung ở lượt sau và route yêu cầu đánh giá nguồn sang source_check."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Bạn kiểm tra giúp nguồn tin này có uy tín không?"
+        },
+        {
+          "role": "user",
+          "content": "Đây là link: https://news.example.org/report"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "source_check",
+            "args": {
+              "url": "https://news.example.org/report"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "source_check",
+            "args": {
+              "url": "https://news.example.org/report"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "source_check",
+          "args": {
+            "url": "https://news.example.org/report"
+          },
+          "result": {
+            "tool": "source_check",
+            "error": "ConnectionError",
+            "message": "HTTPSConnectionPool(host='news.example.org', port=443): Max retries exceeded with url: /report (Caused by NameResolutionError(\"HTTPSConnection(host='news.example.org', port=443): Failed to resolve 'news.example.org' ([Errno 11001] getaddrinfo failed)\"))"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G07_multiturn_text_stats_carryover",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Giữ nguyên văn bản từ lượt trước khi gọi text_stats ở lượt mới."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Đây là đoạn cần phân tích: \"Careful research helps teams make better decisions.\""
+        },
+        {
+          "role": "user",
+          "content": "Đếm số từ của đoạn vừa gửi bằng công cụ thống kê văn bản."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "text_stats",
+            "args": {
+              "text": "Careful research helps teams make better decisions."
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "text_stats",
+            "args": {
+              "text": "Careful research helps teams make better decisions."
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "text_stats",
+          "args": {
+            "text": "Careful research helps teams make better decisions."
+          },
+          "result": {
+            "tool": "text_stats",
+            "word_count": 7,
+            "char_count": 51,
+            "reading_time_minutes": 0.1,
+            "language": "en",
+            "top_keywords": [
+              {
+                "keyword": "careful",
+                "count": 1
+              },
+              {
+                "keyword": "research",
+                "count": 1
+              },
+              {
+                "keyword": "helps",
+                "count": 1
+              },
+              {
+                "keyword": "teams",
+                "count": 1
+              },
+              {
+                "keyword": "make",
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G08_multiturn_filter_items",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Duy trì danh sách từ lượt trước và chọn filter_items với tiêu chí dedup_by=url."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Danh sách bài: [{\"title\":\"AI safety\",\"url\":\"https://site.test/a\"},{\"title\":\"AI safety copy\",\"url\":\"https://site.test/a\"},{\"title\":\"Robotics\",\"url\":\"https://site.test/b\"}]"
+        },
+        {
+          "role": "user",
+          "content": "Lọc danh sách trên và loại bài trùng nhau theo URL."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "filter_items",
+            "args": {
+              "dedup_by": "url"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "filter_items",
+            "args": {
+              "items": [
+                {
+                  "title": "AI safety",
+                  "url": "https://site.test/a"
+                },
+                {
+                  "title": "AI safety copy",
+                  "url": "https://site.test/a"
+                },
+                {
+                  "title": "Robotics",
+                  "url": "https://site.test/b"
+                }
+              ],
+              "dedup_by": "url"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "filter_items",
+          "args": {
+            "items": [
+              {
+                "title": "AI safety",
+                "url": "https://site.test/a"
+              },
+              {
+                "title": "AI safety copy",
+                "url": "https://site.test/a"
+              },
+              {
+                "title": "Robotics",
+                "url": "https://site.test/b"
+              }
+            ],
+            "dedup_by": "url"
+          },
+          "result": {
+            "tool": "filter_items",
+            "input_count": 3,
+            "output_count": 2,
+            "removed_count": 1,
+            "items": [
+              {
+                "title": "AI safety",
+                "url": "https://site.test/a"
+              },
+              {
+                "title": "Robotics",
+                "url": "https://site.test/b"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G09_multiturn_switch_source_check_to_fetch",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Khi đổi yêu cầu từ kiểm tra độ uy tín sang đọc bài, chuyển từ source_check sang fetch và giữ URL."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Kiểm tra độ uy tín của link này: https://research.example.net/post"
+        },
+        {
+          "role": "user",
+          "content": "Thay vào đó, hãy đọc và tóm tắt nội dung bài ở link trên."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://research.example.net/post"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://research.example.net/post"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://research.example.net/post"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://research.example.net/post",
+            "items": [
+              {
+                "title": "https://research.example.net/post",
+                "url": "https://research.example.net/post",
+                "source": "research.example.net",
+                "summary": ""
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G10_multiturn_sentiment_carryover",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Nhớ văn bản từ lượt trước và truyền đúng văn bản vào sentiment_analysis."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Ý kiến cần đánh giá: \"The update is confusing, but the support team was helpful.\""
+        },
+        {
+          "role": "user",
+          "content": "Phân tích sắc thái cảm xúc của ý kiến trên."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "sentiment_analysis",
+            "args": {
+              "text": "The update is confusing, but the support team was helpful."
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "sentiment_analysis",
+            "args": {
+              "text": "The update is confusing, but the support team was helpful.",
+              "language": "en"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "sentiment_analysis",
+          "args": {
+            "text": "The update is confusing, but the support team was helpful.",
+            "language": "en"
+          },
+          "result": {
+            "tool": "sentiment_analysis",
+            "sentiment": "NEUTRAL",
+            "score": 0.0,
+            "positive_signals": [],
+            "negative_signals": [],
+            "signal_count": 0
+          }
+        }
+      ]
+    }
+  ]
+}
