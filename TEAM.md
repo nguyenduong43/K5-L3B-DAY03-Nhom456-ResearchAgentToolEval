@@ -30,24 +30,25 @@ Sao chép mục dưới đây cho từng thành viên.
 
 ### Phần việc phụ trách
 
-- Chịu trách nhiệm chung vai trò Team Leader, quản lý repo, cấu hình môi trường.
-- Chủ trì CP1 (Setup & Baseline v0) và CP2 (Tối ưu Prompt & Tool Declaration v1–v3).
-- Điều phối tích hợp hệ thống và chủ trì soạn thảo Báo cáo nhóm (`group_report.md`).
+- **Vai trò Team Leader:** Khởi tạo và quản lý repository nhóm, phân công nhiệm vụ cụ thể cho các thành viên, điều phối và theo dõi tiến độ hoàn thành các Checkpoint (CP1 đến CP5).
+- Chịu trách nhiệm trực tiếp kỹ thuật CP1 (Setup & Baseline v0) và CP2 (Tối ưu Prompt & Tool Declaration v1).
+- Quản lý branch `NguyenTungDuong`, rà soát tích hợp mã nguồn và hỗ trợ tổng hợp báo cáo nhóm.
 
 ### Đóng góp cụ thể
 
-- Thiết lập provider Gemini và xử lý cơ chế fallback model tự động khi gặp lỗi 503 Overload.
-- Thực hiện chạy baseline v0 và phân loại chi tiết nguyên nhân 6 ca thất bại trong Bảng B2 Failure Analysis.
-- Tiến hành 3 vòng lặp tối ưu hóa Prompt và Tool Declaration dựa trên log thực nghiệm (`v1`, `v2`, `v3`), đưa độ chính xác từ 0.70 lên 1.00 (20/20 test cases pass tuyệt đối).
-- Ghi nhận đầy đủ nhật ký thí nghiệm trong `artifacts/version_log.csv` và hoàn thiện Bảng B1, B2 trong `group_report.md`.
-- Rà soát tính toàn vẹn của hợp đồng tool (`pytest tests/test_tool_contract.py`).
+- **Tổ chức và điều phối nhóm:** Phân chia công việc rõ ràng theo thế mạnh của từng thành viên (giao phụ trách tool mới và unit test CP3, bộ eval nhóm CP4), thiết lập quy trình làm việc theo nhánh Git và merge PR vào `main`.
+- Thiết lập môi trường chạy Gemini (`gemini-3.5-flash-lite`), bổ sung dependency `streamlit` vào `starter_v0/requirements.txt`.
+- Chạy baseline v0 đạt 0.65 (13/20 pass), bóc tách nguyên nhân 7 ca thất bại (R03, R10, R11, R12, R13, M02, M06).
+- Tối ưu hóa toàn diện `system_prompt.md` (xóa bỏ chỉ dẫn xấu, thiết lập boundary clarify/send, routing rules, multi-turn context) và `tools.yaml` (mô tả chi tiết khi nào dùng/không dùng, chuẩn hóa quy ước tham số).
+- Chạy eval bản v1 đạt điểm số tuyệt đối 1.00 (20/20 test cases pass).
+- Commit và push kết quả lên branch `NguyenTungDuong`.
 
 ### Bằng chứng
 
 - Báo cáo cá nhân: `report/team/2A202603850_NguyenTungDuong.md`
 - Prompt & Tools: `starter_v0/artifacts/system_prompt.md`, `starter_v0/artifacts/tools.yaml`
-- Log thí nghiệm: `starter_v0/artifacts/version_log.csv`, `starter_v0/runs/v0_*.json` đến `v3_*.json`
-- Commit: `106f4a0 CP1-CP2: baseline v0 and prompt/tool optimization v1-v3 (Gemini)`
+- Log thí nghiệm: `starter_v0/runs/v0_B_base_gemini_20261110T175614772210.json` (0.65) và `starter_v0/runs/v1_B_base_gemini_20261110T184407163680.json` (1.00)
+- Commit: `3cbf2df feat: complete CP1 baseline v0 and optimize prompt and tools v1` (branch `NguyenTungDuong`)
 
 ## DoDuyTung-2A202603844
 

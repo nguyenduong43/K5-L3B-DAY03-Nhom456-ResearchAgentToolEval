@@ -11,9 +11,13 @@
 
 ## 2. Phần việc phụ trách
 
-- **Thiết lập môi trường và cấu hình:** Chuẩn bị môi trường Python ảo (`.venv`), bổ sung dependency cần thiết (`streamlit>=1.30.0` vào `requirements.txt`), cấu hình `.env` cho provider Google Gemini (`gemini-3.5-flash-lite`).
-- **Thực hiện Checkpoint 1 (CP1 — Baseline v0):** Kiểm tra kết nối preflight, chạy bộ test chuẩn `data/eval_base.json` thu thập log baseline v0 chưa chỉnh sửa, phân loại các ca thất bại theo taxonomy lỗi của bài lab.
-- **Thực hiện Checkpoint 2 (CP2 — Tối ưu hóa v1):** 
+- **Vai trò Team Leader:**
+  - Khởi tạo và quản lý repository nhóm, thiết lập môi trường phát triển (`.env`, Python venv, dependencies).
+  - Phân công nhiệm vụ chi tiết cho các thành viên trong nhóm theo từng Checkpoint.
+  - Điều phối quy trình làm việc trên Git (quản lý branch, review và merge Pull Request vào `main`).
+  - Theo dõi tiến độ chung và chủ trì hoàn thiện Báo cáo nhóm (`group_report.md`).
+- **Phụ trách kỹ thuật CP1 (Baseline v0):** Kiểm tra kết nối preflight Gemini, chạy bộ test chuẩn `data/eval_base.json` thu thập log baseline v0 chưa chỉnh sửa, phân loại các ca thất bại theo taxonomy lỗi của bài lab.
+- **Phụ trách kỹ thuật CP2 (Tối ưu hóa v1):** 
   - Xóa bỏ toàn bộ chỉ dẫn xấu cố ý trong starter prompt (đoán mò thay vì hỏi, gửi không cần xác nhận, ép làm trong 1 bước).
   - Tái cấu trúc `system_prompt.md` với các quy tắc ranh giới an toàn (`clarify` vs `send`), quy tắc định tuyến công cụ (routing rules) và xử lý ngữ cảnh hội thoại nhiều lượt (multi-turn carryover & correction).
   - Viết lại toàn diện `tools.yaml` với mô tả rõ ràng: chức năng, khi nào dùng, khi nào không dùng, và chuẩn hóa quy ước tham số (`screenname` không có `@`, `lookup.query` chỉ chứa từ khóa cốt lõi, `topic=news`, `timeframe`, `search_type=Top|Latest`).
@@ -21,7 +25,12 @@
 
 ## 3. Đóng góp cụ thể
 
-1. **Thiết lập môi trường & Chạy Baseline v0 (CP1):**
+1. **Quản lý, phân công và điều phối nhóm (Team Leader):**
+   - Lập kế hoạch phân công công việc rõ ràng cho các thành viên: giao bạn Đỗ Duy Tùng phụ trách xây dựng tool mới và viết unit test (CP3), phân công thành viên xây dựng bộ eval mở rộng của nhóm (CP4).
+   - Hướng dẫn các thành viên tạo branch cá nhân riêng để tránh xung đột mã nguồn trực tiếp trên `main`.
+   - Rà soát các Pull Request và xử lý các xung đột hợp nhất (merge conflict) để tích hợp đầy đủ công sức của mọi người vào nhánh chính.
+
+2. **Thiết lập môi trường & Chạy Baseline v0 (CP1):**
    - Khởi tạo môi trường ảo, cài đặt đầy đủ các gói thư viện và bổ sung `streamlit` vào `starter_v0/requirements.txt`.
    - Kết nối thành công provider Gemini qua `scripts/preflight_provider.py` với model `gemini-3.5-flash-lite`.
    - Chạy eval baseline `v0` thu được kết quả tại `starter_v0/runs/v0_B_base_gemini_20261110T175614772210.json`: 
