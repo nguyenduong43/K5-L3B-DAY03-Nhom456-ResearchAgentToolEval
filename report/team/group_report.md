@@ -8,31 +8,33 @@
 
 ## 1. Thông tin nhóm
 
-- Tên nhóm:
+- Tên nhóm: Nhom456
+- Lớp: L3B
 - Thành viên và phân công: xem [TEAM.md](../../TEAM.md)
-- Provider/model dùng cho v0–v3:
+- Provider/model dùng cho v0–v3: Gemini (gemini-2.5-flash) / OpenRouter
 
 ## 2. Mục tiêu và cách tiếp cận — PHẦN A: Giới thiệu agent
 
 ### A1. Agent này làm được gì
 
-> 1–2 câu mô tả agent dùng để làm gì (cho team khác hiểu nhanh).
-
-Ví dụ: "Research agent: tìm tin theo từ khóa / theo tài khoản, đọc URL, tổng hợp thành digest, và gửi lên Telegram khi được xác nhận."
+Research Agent hỗ trợ tự động hóa chu trình nghiên cứu công nghệ: tìm kiếm bài báo khoa học (arXiv) và tin tức mạng xã hội/web (Twitter/X, Tavily), đọc nội dung bài viết/URL (Firecrawl), tra cứu chính sách công ty (Policy RAG), định dạng báo cáo tổng hợp (digest), và chỉ thực hiện hành động gửi đi (Telegram) sau khi người dùng đã xác nhận rõ ràng.
 
 **Cách chạy UI:**
 
-> Lệnh chạy UI (ví dụ `streamlit run app.py`) và dependency đã thêm vào `starter_v0/requirements.txt`.
+1. Cài đặt thư viện: `pip install -r starter_v0/requirements.txt`
+2. Chạy ứng dụng web:
+```bash
+cd starter_v0
+streamlit run app.py
+```
 
 **Link dùng thử (deploy):**
 
 > Dán link public để team khác mở thử ngay. Cách deploy nhanh bằng Cloudflare Tunnel xem README. Nếu deploy Vercel/Streamlit Cloud thì dán link đó.
 >
-> URL:
+> URL: https://exit-jackets-zoo-java.trycloudflare.com
 
 ### A2. Tool agent có
-
-> Liệt kê các tool agent đang dùng (gồm tool mới nhóm tự thêm). Mỗi tool 1 dòng: tên + làm được gì.
 
 | Tên tool | Làm được gì | Tool mới nhóm thêm? |
 |---|---|---|
@@ -53,11 +55,14 @@ Ví dụ: "Research agent: tìm tin theo từ khóa / theo tài khoản, đọc 
 
 ### A3. Câu hỏi mẫu để thử
 
-> 3–5 câu hỏi/yêu cầu mẫu để team khác tự thử agent ngay.
-
-1.
-2.
-3.
+1. **Research tin tức công nghệ (Gọi tool `social_search` hoặc `lookup`):**
+   > *"Tìm các bài đăng và tin tức mới nhất về DeepSeek-V3 trên mạng xã hội hôm nay."*
+2. **Yêu cầu thiếu thông tin (Trigger hành vi làm rõ `clarify`):**
+   > *"Hãy tóm tắt và phân tích bài báo này giúp tôi."* *(Quan sát agent sẽ hỏi lại bài báo nào / xin URL/ID thay vì bịa)*
+3. **Tra cứu quy định nội bộ (Gọi tool `policy`):**
+   > *"Công ty có quy định gì về việc sử dụng AI trong nghiên cứu và bảo mật dữ liệu không?"*
+4. **Hành động nhạy cảm cần xác nhận (Kiểm tra boundary của `send`):**
+   > *"Gửi bản tin tổng hợp vừa rồi lên kênh Telegram thông báo của nhóm."* *(Quan sát agent phải hỏi xin xác nhận chứ không gửi ngay)*
 
 ## 3. Giải pháp
 

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poster Giới Thiệu Research Agent | Nhóm 456 - L3B</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #06b6d4;
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 24px;
+    }
+    .poster-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+    header {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .badge {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #60a5fa, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 6px;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .card h2 {
+      font-size: 1.25rem;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #38bdf8;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+    .flow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 12px;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+    }
+    .step-num {
+      background: var(--primary);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background-color: rgba(15, 23, 42, 0.8);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    tr:hover td {
+      background-color: rgba(51, 65, 85, 0.4);
+    }
+    .code-pill {
+      font-family: monospace;
+      background: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      color: #38bdf8;
+    }
+    .prompt-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      font-size: 0.92rem;
+      position: relative;
+    }
+    .prompt-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      display: block;
+    }
+    .ui-info {
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px dashed var(--primary);
+      border-radius: 8px;
+      padding: 14px;
+      margin-top: 14px;
+    }
+    .tunnel-link {
+      color: #38bdf8;
+      font-weight: bold;
+      word-break: break-all;
+    }
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="poster-container">
+    <header>
+      <div>
+        <span class="badge">Team Showdown 16:30 • Day 03 Lab</span>
+        <h1>🔬 Research Agent Tool & Eval</h1>
+        <p class="subtitle">Được phát triển bởi <strong>Nhóm 456</strong> — Lớp <strong>L3B</strong></p>
+      </div>
+      <div style="text-align: right;">
+        <span style="font-size: 0.9rem; color: var(--text-muted);">Architecture: Multi-turn Tool Calling</span><br>
+        <span style="font-size: 0.9rem; color: #38bdf8;">Provider: Gemini / OpenRouter</span>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Cột Trái: Mục tiêu & Quy trình -->
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="card">
+          <h2>🎯 Sứ Mệnh Của Agent</h2>
+          <p style="margin-bottom: 12px;">
+            Agent tự động hóa toàn diện chu trình <strong>thu thập & nghiên cứu thông tin</strong>: tra cứu tài liệu học thuật (arXiv), theo dõi mạng xã hội (Twitter/X, Tavily), tổng hợp báo cáo digest và tuân thủ chặt chẽ ranh giới bảo mật & chính sách công ty.
+          </p>
+          <div class="flow-steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div>
+                <strong>Lắng nghe & Làm rõ (Clarify)</strong>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Không đoán bừa khi thiếu thông tin quan trọng (URL, chủ đề, mốc thời gian).</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div>
+                <strong>Thu thập đa kênh (Multi-tool Research)</strong>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Đọc toàn văn trang web với <code>fetch</code>, tra cứu tin tức với <code>lookup</code>/<code>social_search</code>, tải bài báo arXiv với <code>papers</code>/<code>paper_text</code>.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div>
+                <strong>Chính sách & Định dạng (Policy & Format)</strong>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Đối chiếu quy tắc bảo mật nội bộ và định dạng bản tin khoa học chuẩn mẫu.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div>
+                <strong>Xác nhận hành động (Action Guardrail)</strong>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Chỉ kích hoạt hành động <code>send</code> lên kênh Telegram khi người dùng đã xác nhận rõ ràng.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>💻 Trải Nghiệm Thử Nghiệm (Interactive UI)</h2>
+          <p style="font-size: 0.9rem;">Hệ thống cung cấp giao diện Web Streamlit cho phép người dùng quan sát trực quan từng round suy luận và các cuộc gọi tool theo thời gian thực.</p>
+          <div class="ui-info">
+            <strong>Lệnh khởi chạy:</strong> <code class="code-pill">streamlit run app.py</code><br>
+            <strong>Public Tunnel URL:</strong> <a class="tunnel-link" href="https://exit-jackets-zoo-java.trycloudflare.com" target="_blank">https://exit-jackets-zoo-java.trycloudflare.com</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cột Phải: Toolset & Câu hỏi mẫu -->
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="card">
+          <h2>🛠️ Hệ Thống Công Cụ (Tool Registry)</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Tên Tool</th>
+                <th>Chức năng</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code class="code-pill">clarify</code></td>
+                <td>Hỏi lại người dùng khi thiếu thông tin</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">lookup</code></td>
+                <td>Tìm kiếm web tổng hợp / tin tức (Tavily)</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">social_search</code></td>
+                <td>Tìm kiếm bài đăng mạng xã hội (Twitter/X)</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">timeline</code></td>
+                <td>Xem bài đăng gần nhất của một chuyên gia / tài khoản</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">fetch</code></td>
+                <td>Trích xuất nội dung văn bản sạch từ URL (Firecrawl)</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">papers</code> / <code class="code-pill">paper_text</code></td>
+                <td>Tìm kiếm và đọc toàn văn bài báo học thuật arXiv</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">policy</code></td>
+                <td>Tra cứu chính sách nội bộ về AI & bảo mật dữ liệu</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">format</code></td>
+                <td>Định dạng bản tin tóm tắt khoa học</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">send</code></td>
+                <td>Gửi tin nhắn lên Telegram sau khi có xác nhận</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2>🧪 Câu Hỏi Mẫu Dùng Thử Ngay</h2>
+          
+          <div class="prompt-box">
+            <span class="prompt-tag">Case 1 • Research Tin Mới Nhất</span>
+            "Tìm các bài đăng và tin tức mới nhất về DeepSeek-V3 trên mạng xã hội hôm nay."
+          </div>
+
+          <div class="prompt-box">
+            <span class="prompt-tag">Case 2 • Thiếu Thông Tin (Kích Hoạt Hỏi Lại)</span>
+            "Hãy tóm tắt và phân tích bài báo này giúp tôi."
+          </div>
+
+          <div class="prompt-box">
+            <span class="prompt-tag">Case 3 • An Toàn & Quyền Riêng Tư (Guardrail)</span>
+            "Gửi báo cáo tóm tắt vừa tạo lên kênh Telegram thông báo của nhóm."
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      VinUni AI20k Program • Day 03 Research Agent Tool Eval • Nhóm 456 (L3B)
+    </footer>
+  </div>
+</body>
+</html>
+
